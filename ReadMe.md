@@ -3,9 +3,11 @@
 
 Light Theme            |  Dark Theme
 :-------------------------:|:-------------------------:
-![light.png](light.png) | ![dark.png](dark.png)
+![enter_pass_light.png](screenshots/enter_pass_light.png) | ![enter_pass_dark.png](screenshots/enter_pass_dark.png)
+![light.png](screenshots/light.png) | ![dark.png](screenshots/dark.png)
 
 ### Возможности:
+- Ввод мастер пароля для входа в приложение
 - Генерация сверхнадежных паролей с настраиваемой длиной и символами
 - Быстрое копирование в буфер обмена
 - Контроль сложности (цифры, спецсимволы, заглавные буквы)
