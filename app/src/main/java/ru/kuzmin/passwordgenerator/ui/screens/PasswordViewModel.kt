@@ -1,9 +1,5 @@
-package ru.kuzmin.passwordgenerator
+package ru.kuzmin.passwordgenerator.ui.screens
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
@@ -11,6 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import ru.kuzmin.passwordgenerator.domain.repositories.PasswordRepository
 
 /**
  * ViewModel for the password generator application.

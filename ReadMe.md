@@ -3,8 +3,9 @@
 
 Light Theme            |  Dark Theme
 :-------------------------:|:-------------------------:
+![create_master_pass_light.png](screenshots/create_master_pass_light.png) | ![create_master_pass_dark.png](screenshots/create_master_pass_dark.png)
 ![enter_pass_light.png](screenshots/enter_pass_light.png) | ![enter_pass_dark.png](screenshots/enter_pass_dark.png)
-![light.png](screenshots/light.png) | ![dark.png](screenshots/dark.png)
+![generate_pass_light.png](screenshots/generate_pass_light.png) | ![generate_pass_dark.png](screenshots/generate_pass_dark.png)
 
 ### Возможности:
 - Ввод мастер пароля для входа в приложение

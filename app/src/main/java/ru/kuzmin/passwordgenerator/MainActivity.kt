@@ -10,9 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import ru.kuzmin.passwordgenerator.domain.repositories.PasswordRepository
+import ru.kuzmin.passwordgenerator.navigation.AppNavGraph
+import ru.kuzmin.passwordgenerator.ui.screens.PasswordViewModel
 import ru.kuzmin.passwordgenerator.ui.theme.PasswordGeneratorTheme
 
 /**
@@ -36,32 +37,9 @@ class MainActivity : ComponentActivity() {
                         }
                     )
 
-                    val navController = rememberNavController()
-
-                    NavHost(
-                        navController = navController,
-                        startDestination = "password"
-                    ) {
-                        composable("password") {
-                            PasswordScreen(
-                                viewModel = viewModel,
-                                onPasswordVerified = {
-                                    navController.navigate("main") {
-                                        popUpTo("password") { inclusive = true }
-                                    }
-                                },
-                                onNewPasswordCreated = {
-                                    navController.navigate("main") {
-                                        popUpTo("password") { inclusive = true }
-                                    }
-                                }
-                            )
-                        }
-
-                        composable("main") {
-                            PasswordGeneratorScreen()
-                        }
-                    }
+                    AppNavGraph(
+                        viewModel = viewModel
+                    )
                 }
             }
         }

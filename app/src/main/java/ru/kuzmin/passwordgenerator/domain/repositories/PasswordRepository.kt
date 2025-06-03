@@ -1,4 +1,4 @@
-package ru.kuzmin.passwordgenerator
+package ru.kuzmin.passwordgenerator.domain.repositories
 
 import android.content.Context
 import androidx.datastore.core.DataStore

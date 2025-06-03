@@ -1,4 +1,4 @@
-package ru.kuzmin.passwordgenerator
+package ru.kuzmin.passwordgenerator.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
