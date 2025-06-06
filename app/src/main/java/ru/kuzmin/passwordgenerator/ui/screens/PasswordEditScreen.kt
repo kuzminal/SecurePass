@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,11 +41,11 @@ fun PasswordEditScreen(
     onNewPasswordGenerate: () -> Unit
 ) {
     val password = viewModel.getPasswordById(passwordId)
-    var title by remember { mutableStateOf(password?.title ?: "") }
-    var username by remember { mutableStateOf(password?.username ?: "") }
-    var passwordText by remember { mutableStateOf(password?.encryptedPassword ?: "") }
-    var website by remember { mutableStateOf(password?.website ?: "") }
-    var notes by remember { mutableStateOf(password?.notes ?: "") }
+    var title by rememberSaveable { mutableStateOf(password?.title ?: "") }
+    var username by rememberSaveable { mutableStateOf(password?.username ?: "") }
+    var passwordText by rememberSaveable { mutableStateOf(password?.encryptedPassword ?: "") }
+    var website by rememberSaveable { mutableStateOf(password?.website ?: "") }
+    var notes by rememberSaveable { mutableStateOf(password?.notes ?: "") }
 
     Scaffold(
         topBar = {
