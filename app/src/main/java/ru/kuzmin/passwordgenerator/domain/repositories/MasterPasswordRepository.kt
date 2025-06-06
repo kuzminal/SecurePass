@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.map
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "password_store")
 
-class PasswordRepository(private val context: Context) {
+class MasterPasswordRepository(private val context: Context) {
     private val PASSWORD_KEY = stringPreferencesKey("app_password")
 
     suspend fun savePassword(password: String) {

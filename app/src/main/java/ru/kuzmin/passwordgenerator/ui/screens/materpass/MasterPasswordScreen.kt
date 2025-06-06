@@ -1,4 +1,4 @@
-package ru.kuzmin.passwordgenerator.ui.screens
+package ru.kuzmin.passwordgenerator.ui.screens.materpass
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,7 +37,7 @@ import kotlinx.coroutines.flow.onEach
 
 @Composable
 fun PasswordScreen(
-    viewModel: PasswordViewModel,
+    viewModel: MasterPasswordViewModel,
     onPasswordVerified: () -> Unit,
     onNewPasswordCreated: () -> Unit
 ) {

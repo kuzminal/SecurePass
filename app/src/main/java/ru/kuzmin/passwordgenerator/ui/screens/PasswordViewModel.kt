@@ -2,51 +2,27 @@ package ru.kuzmin.passwordgenerator.ui.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import ru.kuzmin.passwordgenerator.domain.repositories.PasswordRepository
+import kotlinx.coroutines.runBlocking
+import ru.kuzmin.passwordgenerator.data.local.entities.PasswordEntity
+import ru.kuzmin.passwordgenerator.data.repositories.PasswordRepository
 
-/**
- * ViewModel for the password generator application.
- */
 class PasswordViewModel(private val repository: PasswordRepository) : ViewModel() {
-    private val _uiState = MutableStateFlow<PasswordUiState>(PasswordUiState.Loading)
-    val uiState: StateFlow<PasswordUiState> = _uiState
+    val passwords = repository.allPasswords
 
-    init {
-        checkPassword()
+    fun addPassword(password: PasswordEntity) = viewModelScope.launch {
+        repository.insert(password)
     }
 
-    private fun checkPassword() {
-        viewModelScope.launch {
-            repository.hasPassword.collect { hasPassword ->
-                _uiState.value = if (hasPassword) {
-                    PasswordUiState.PasswordExists
-                } else {
-                    PasswordUiState.NoPassword
-                }
-            }
-        }
+    fun updatePassword(password: PasswordEntity) = viewModelScope.launch {
+        repository.update(password)
     }
 
-    fun savePassword(password: String) {
-        viewModelScope.launch {
-            repository.savePassword(password)
-            _uiState.value = PasswordUiState.PasswordExists
-        }
+    fun deletePassword(password: PasswordEntity) = viewModelScope.launch {
+        repository.delete(password)
     }
 
-    fun validatePassword(input: String): Flow<Boolean> {
-        return repository.getPassword()
-            .map { savedPassword -> savedPassword == input }
+    fun getPasswordById(id: Int): PasswordEntity? {
+        return runBlocking { repository.getPasswordById(id) }
     }
-}
-
-sealed class PasswordUiState {
-    object Loading : PasswordUiState()
-    object NoPassword : PasswordUiState()
-    object PasswordExists : PasswordUiState()
 }

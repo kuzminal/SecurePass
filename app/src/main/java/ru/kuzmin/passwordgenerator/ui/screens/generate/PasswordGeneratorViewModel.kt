@@ -1,5 +1,8 @@
-package ru.kuzmin.passwordgenerator.ui.screens
+package ru.kuzmin.passwordgenerator.ui.screens.generate
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -88,10 +91,10 @@ class PasswordGeneratorViewModel() : ViewModel() {
      *
      * @param context The context of the application.
      */
-    fun copyToClipboard(context: android.content.Context) {
-        val clipboard = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE)
-                as android.content.ClipboardManager
-        val clip = android.content.ClipData.newPlainText("Generated Password", password)
+    fun copyToClipboard(context: Context) {
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE)
+                as ClipboardManager
+        val clip = ClipData.newPlainText("Generated Password", password)
         clipboard.setPrimaryClip(clip)
         isCopied = true
     }
