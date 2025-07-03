@@ -1,5 +1,6 @@
 package ru.kuzmin.passwordgenerator.ui.screens.materpass
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,13 +29,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import ru.kuzmin.passwordgenerator.security.BiometricAuthHelper
 
 @Composable
 fun PasswordScreen(
@@ -41,18 +46,26 @@ fun PasswordScreen(
     onPasswordVerified: () -> Unit,
     onNewPasswordCreated: () -> Unit
 ) {
+    val context = LocalContext.current
+    val activity = LocalActivity.current as FragmentActivity
     val viewModelScope = viewModel.viewModelScope
     val uiState by viewModel.uiState.collectAsState()
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    var isBiometricEnabled by remember { mutableStateOf(viewModel.isBiometricEnabled()) }
+    val biometricAuthHelper = remember {
+        BiometricAuthHelper(
+            context = context,
+            onSuccess = { onPasswordVerified() },
+            onError = { message -> errorMessage = message }
+        )
+    }
 
-    LaunchedEffect(uiState) {
-//        when (uiState) {
-//            is PasswordUiState.PasswordExists -> {/* Проверяем пароль */ } //onPasswordVerified()
-//            is PasswordUiState.NoPassword -> { /* Остаемся на экране */ }
-//            is PasswordUiState.Loading -> { /* Показываем загрузку */ }
-//        }
+    LaunchedEffect(Unit) {
+        if (viewModel.isBiometricEnabled()) {
+            biometricAuthHelper.showBiometricPrompt(activity)
+        }
     }
 
     Column(
@@ -108,6 +121,15 @@ fun PasswordScreen(
                         modifier = Modifier.padding(top = 8.dp)
                     )
                 }
+
+                Switch(
+                    checked = isBiometricEnabled,
+                    onCheckedChange = {
+                        isBiometricEnabled = it
+                        viewModel.setBiometricAuth(it)
+                    }
+                )
+                Text("Использовать биометрическую аутентификацию")
 
                 Button(
                     onClick = {

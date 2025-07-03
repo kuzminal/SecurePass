@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.FilterVintage
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,7 +34,8 @@ import ru.kuzmin.passwordgenerator.data.local.entities.PasswordEntity
 fun PasswordListScreen(
     viewModel: PasswordViewModel = viewModel(),
     onItemClick: (PasswordEntity) -> Unit,
-    onAddClick: () -> Unit
+    onAddClick: () -> Unit,
+    onSettingsClick : () -> Unit
 ) {
     val passwords = viewModel.passwords.collectAsStateWithLifecycle(initialValue = emptyList())
 
@@ -41,11 +43,11 @@ fun PasswordListScreen(
         topBar = {
             TopAppBar(
                 title = { Text("Мои пароли") },
-//                actions = {
-//                    IconButton(onClick = onAddClick) {
-//                        Icon(Icons.Default.Add, "Добавить пароль")
-//                    }
-//                }
+                actions = {
+                    IconButton(onClick = onSettingsClick) {
+                        Icon(Icons.Default.FilterVintage, "Настройки")
+                    }
+                }
             )
         },
         floatingActionButton = {

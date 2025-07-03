@@ -5,6 +5,7 @@ object Destinations {
     const val PASSWORD = "password"
     const val LIST = "passwordList"
     const val DETAILS = "passwordEdit/{passwordId}"
+    const val SETTINGS = "settings"
 
     fun createDetailsRoute(passwordId: Int) = "passwordEdit/$passwordId"
 }

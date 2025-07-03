@@ -8,11 +8,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.kuzmin.passwordgenerator.domain.repositories.MasterPasswordRepository
+import ru.kuzmin.passwordgenerator.domain.repositories.AppPreferences
 
 /**
  * ViewModel for the password generator application.
  */
-class MasterPasswordViewModel(private val repository: MasterPasswordRepository) : ViewModel() {
+class MasterPasswordViewModel(
+    private val repository: MasterPasswordRepository,
+    private val appPreferences: AppPreferences
+) : ViewModel() {
     private val _uiState = MutableStateFlow<PasswordUiState>(PasswordUiState.Loading)
     val uiState: StateFlow<PasswordUiState> = _uiState
 
@@ -42,6 +46,16 @@ class MasterPasswordViewModel(private val repository: MasterPasswordRepository) 
     fun validatePassword(input: String): Flow<Boolean> {
         return repository.getPassword()
             .map { savedPassword -> savedPassword == input }
+    }
+
+    fun isBiometricEnabled(): Boolean {
+        return appPreferences.isBiometricEnabled
+    }
+
+    fun setBiometricAuth(enabled: Boolean) {
+        viewModelScope.launch {
+            appPreferences.isBiometricEnabled = enabled
+        }
     }
 }
 
