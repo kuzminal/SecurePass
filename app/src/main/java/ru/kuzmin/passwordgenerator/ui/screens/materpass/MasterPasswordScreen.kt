@@ -18,7 +18,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -39,6 +38,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import ru.kuzmin.passwordgenerator.security.BiometricAuthHelper
+import ru.kuzmin.passwordgenerator.ui.screens.generate.CheckboxOption
 
 @Composable
 fun PasswordScreen(
@@ -63,7 +63,7 @@ fun PasswordScreen(
     }
 
     LaunchedEffect(Unit) {
-        if (viewModel.isBiometricEnabled()) {
+        if (uiState == PasswordUiState.PasswordExists && viewModel.isBiometricEnabled()) {
             biometricAuthHelper.showBiometricPrompt(activity)
         }
     }
@@ -122,14 +122,14 @@ fun PasswordScreen(
                     )
                 }
 
-                Switch(
+                CheckboxOption(
+                    text = "Использовать биометрическую аутентификацию",
                     checked = isBiometricEnabled,
                     onCheckedChange = {
                         isBiometricEnabled = it
                         viewModel.setBiometricAuth(it)
                     }
                 )
-                Text("Использовать биометрическую аутентификацию")
 
                 Button(
                     onClick = {
